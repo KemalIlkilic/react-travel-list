@@ -18,6 +18,15 @@ export default function App() {
 
   const percentItems = Math.round((packedItems / numberItems) * 100);
 
+  function handleDeleteItems() {
+    const confirm = window.confirm(
+      "Are you sure you want to delete all items?"
+    );
+    if (confirm) {
+      setItems((items) => []);
+    }
+  }
+
   function handleAddItems(item) {
     setItems((items) => [...items, item]);
   }
@@ -42,6 +51,7 @@ export default function App() {
         items={items}
         onDeleteItem={handleDeleteItem}
         onUpdateItem={handleUpdateItem}
+        onDeleteItems={handleDeleteItems}
       />
       <Stats number={numberItems} packed={packedItems} percent={percentItems} />
     </div>
@@ -93,7 +103,7 @@ function Form({ onAddItems }) {
   );
 }
 
-function PackingList({ items, onDeleteItem, onUpdateItem }) {
+function PackingList({ items, onDeleteItem, onUpdateItem, onDeleteItems }) {
   const [sortBy, setSortBy] = useState("input");
 
   let sortedItems;
@@ -126,6 +136,7 @@ function PackingList({ items, onDeleteItem, onUpdateItem }) {
           <option value="description">Sort by description</option>
           <option value="packed">Sort by packed</option>
         </select>
+        <button onClick={onDeleteItems}>Clear List</button>
       </div>
     </div>
   );
